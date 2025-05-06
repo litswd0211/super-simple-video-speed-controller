@@ -1,0 +1,21 @@
+{
+  "name": "super-simple-video-speed-controller",
+  "version": "1.0.0",
+  "description": "A Chrome extension to change video playback speed.",
+  "main": "src/background.js",
+  "scripts": {
+    "build": "echo 'Build script placeholder'",
+    "test": "echo 'Test script placeholder'"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "video",
+    "playback",
+    "speed"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
