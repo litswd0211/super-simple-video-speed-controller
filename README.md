@@ -1,40 +1,61 @@
-# Super Simple Video Speed Controller
+# Video Pace Master Lite
 
-このプロジェクトは、動画の再生速度を変更するシンプルなChrome拡張機能です。ユーザーがウェブページ上の動画の再生速度を簡単に調整できるようにします。
+Video Pace Master Lite is a minimalistic Chrome extension that allows users to control video playback speed effortlessly. This extension is designed to work on popular platforms like YouTube and Amazon Prime Video.
 
-## ファイル構成
+## File Structure
 
-- `src/background.js`: Chrome拡張のバックグラウンドスクリプト。拡張機能のライフサイクルを管理します。
-- `src/content.js`: コンテンツスクリプト。ウェブページに直接アクセスして操作を行います。
-- `src/popup/popup.html`: ポップアップのHTMLテンプレート。ユーザーインターフェースを定義します。
-- `src/popup/popup.js`: ポップアップのJavaScriptロジック。ユーザーの操作に応じた動作を定義します。
-- `src/popup/popup.css`: ポップアップのスタイルを定義します。
-- `src/manifest.json`: Chrome拡張のメタデータを含む設定ファイル。拡張の名前、バージョン、権限などを指定します。
-- `.gitignore`: Gitに無視させるファイルやディレクトリを指定します。
-- `package.json`: npmの設定ファイル。プロジェクトの依存関係やスクリプトをリストします。
+- `src/background.js`: Manages the lifecycle of the Chrome extension.
+- `src/content.js`: Injects functionality into web pages to control video playback speed.
+- `src/popup/popup.html`: Defines the popup's user interface.
+- `src/popup/popup.js`: Handles the logic for user interactions in the popup.
+- `src/popup/popup.css`: Styles for the popup interface.
+- `manifest.json`: Metadata and configuration for the Chrome extension.
+- `images/`: Contains icons and screenshots for the extension.
 
-## インストール手順
+## Installation
 
-1. このリポジトリをクローンします。
+1. Clone this repository:
    ```
    git clone <repository-url>
    ```
-2. プロジェクトディレクトリに移動します。
+2. Navigate to the project directory:
    ```
    cd super-simple-video-speed-controller
    ```
-3. 必要な依存関係をインストールします。
-   ```
-   npm install
-   ```
 
-## 使用方法
+## Usage
 
-1. Chromeブラウザを開き、`chrome://extensions/`に移動します。
-2. 右上の「デベロッパーモード」をオンにします。
-3. 「パッケージ化されていない拡張機能を読み込む」をクリックし、`src`フォルダを選択します。
-4. 拡張機能が追加されたら、動画を再生し、ポップアップから再生速度を調整します。
+1. Open Chrome and navigate to `chrome://extensions/`.
+2. Enable "Developer mode" in the top-right corner.
+3. Click "Load unpacked" and select the project folder.
+4. Play a video on a supported platform and use the following shortcuts:
+   - Press **D** to increase playback speed by 0.1x.
+   - Press **S** to decrease playback speed by 0.1x.
 
-## ライセンス
+A toast notification will display the current playback speed.
 
-このプロジェクトはMITライセンスの下で公開されています。
+## Commands for Development and Release
+
+### Generate Icons
+To resize the original icon to required sizes:
+```bash
+sips -z 16 16 images/icon.original.png --out images/icon16.png
+sips -z 48 48 images/icon.original.png --out images/icon48.png
+sips -z 128 128 images/icon.original.png --out images/icon128.png
+```
+
+### Generate Screenshots
+To resize a screenshot to the required dimensions (1280x800):
+```bash
+sips -z 800 1280 images/screenshot.original.png --out images/screenshot1280x800.png
+```
+
+### Create Release Package
+To create a ZIP file for Chrome Web Store submission:
+```bash
+zip -r video-pace-master-lite.zip manifest.json images/ src/ package.json
+```
+
+## License
+
+This project is licensed under the MIT License.
