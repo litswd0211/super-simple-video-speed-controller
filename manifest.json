@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Video Speed Controller",
+  "name": "Video Pace Master Lite",
   "version": "1.0",
   "description": "A Chrome extension to control video playback speed.",
   "permissions": [
