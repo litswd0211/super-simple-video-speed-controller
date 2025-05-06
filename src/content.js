@@ -4,7 +4,7 @@ const observeVideos = () => {
         videos.forEach(video => {
             if (!video.hasAttribute('data-speed-controller')) {
                 video.setAttribute('data-speed-controller', 'true');
-                console.log('Video element detected and ready for speed control.');
+                // console.log('Video element detected and ready for speed control.');
             }
         });
     });
@@ -23,8 +23,6 @@ const showToast = (message) => {
     toast.style.position = 'fixed';
     toast.style.top = '20px';
     toast.style.left = '20px';
-    toast.style.bottom = '';
-    toast.style.right = '';
     toast.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
     toast.style.color = 'white';
     toast.style.padding = '10px 20px';
@@ -49,11 +47,11 @@ document.addEventListener('keydown', (event) => {
         if (event.key === 'D' || event.key === 'd') {
             video.playbackRate = Math.min(video.playbackRate + 0.1, 16); // 最大速度16倍
             showToast(`Speed: ${video.playbackRate.toFixed(1)}x`);
-            console.log(`Video speed increased to: ${video.playbackRate.toFixed(1)}x`);
+            // console.log(`Video speed increased to: ${video.playbackRate.toFixed(1)}x`);
         } else if (event.key === 'S' || event.key === 's') {
             video.playbackRate = Math.max(video.playbackRate - 0.1, 0.1); // 最小速度0.1倍
             showToast(`Speed: ${video.playbackRate.toFixed(1)}x`);
-            console.log(`Video speed decreased to: ${video.playbackRate.toFixed(1)}x`);
+            // console.log(`Video speed decreased to: ${video.playbackRate.toFixed(1)}x`);
         }
     });
 });
