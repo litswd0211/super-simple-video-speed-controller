@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keyboard Shortcuts</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; margin: 16px; }
+    h1 { font-size: 18px; margin: 0 0 12px; }
+    h2 { font-size: 16px; margin: 16px 0 8px; }
+    .row { margin: 8px 0; }
+    input[type="text"] { width: 100%; padding: 8px; box-sizing: border-box; }
+    button { padding: 8px 12px; }
+    .hint { color: #666; font-size: 12px; }
+    .status { margin-top: 8px; font-size: 12px; color: #0a7; }
+
+    /* キー設定UI用 */
+    .key-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; background: #f1f3f5; border: 1px solid #d9dee3; border-radius: 999px; padding: 4px 8px; font-size: 12px; }
+    .chip button { border: none; background: transparent; cursor: pointer; padding: 2px 4px; font-size: 12px; }
+    .inline-input { width: auto; min-width: 220px; }
+    .section { border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Keyboard Shortcuts</h1>
+  <div class="section">
+    <h2>Configure Keys</h2>
+    <div class="hint">Examples: d, f, arrowup. Case-insensitive. A key belongs to only one action at a time.</div>
+    <div class="row">
+      <label for="add-key-increase">Keys to increase speed</label>
+      <div id="keys-increase" class="chips" aria-live="polite"></div>
+      <div class="key-row">
+        <input id="add-key-increase" class="inline-input" type="text" placeholder="e.g., d, f">
+        <button id="btn-add-increase" type="button">Add</button>
+      </div>
+    </div>
+    <div class="row">
+      <label for="add-key-decrease">Keys to decrease speed</label>
+      <div id="keys-decrease" class="chips" aria-live="polite"></div>
+      <div class="key-row">
+        <input id="add-key-decrease" class="inline-input" type="text" placeholder="e.g., s">
+        <button id="btn-add-decrease" type="button">Add</button>
+      </div>
+    </div>
+    <div class="row">
+      <button id="reset-keys" type="button">Reset keyboard to defaults</button>
+    </div>
+  </div>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

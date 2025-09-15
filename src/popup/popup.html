@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>動画再生速度変更</title>
+    <title>Video Playback Speed</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-    <div id="popup-container">
-        <h1>動画再生速度変更</h1>
-        <label for="speed">再生速度:</label>
-        <select id="speed">
-            <option value="0.5">0.5x</option>
-            <option value="1" selected>1x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2">2x</option>
-        </select>
-        <button id="set-speed">設定</button>
-    </div>
+        <div id="popup-container">
+                <h1>Keyboard Shortcuts</h1>
+                <p>Use your configured keys to adjust speed. Open Options to change keys.</p>
+                <div class="footer"><a id="open-options" href="#">Open Options…</a></div>
+        </div>
     <script src="popup.js"></script>
 </body>
 </html>

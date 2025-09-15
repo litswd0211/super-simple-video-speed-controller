@@ -1,12 +1,40 @@
+const DEFAULT_KEYS = { increase: ['d'], decrease: ['s'] };
+
+function getSiteKey() {
+    try {
+        return new URL(location.href).origin;
+    } catch {
+        return location.hostname || 'global';
+    }
+}
+
+function applySpeedToVideos(rate) {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(v => {
+        v.playbackRate = rate;
+    });
+}
+
+function restoreLastSpeed() {
+    const key = `lastSpeed:${getSiteKey()}`;
+    chrome.storage.local.get([key], (data) => {
+        const rate = data[key];
+        if (typeof rate === 'number' && rate > 0) {
+            applySpeedToVideos(rate);
+        }
+    });
+}
+
 const observeVideos = () => {
     const observer = new MutationObserver(() => {
         const videos = document.querySelectorAll('video');
         videos.forEach(video => {
             if (!video.hasAttribute('data-speed-controller')) {
                 video.setAttribute('data-speed-controller', 'true');
-                // console.log('Video element detected and ready for speed control.');
             }
         });
+        // If new videos appeared, re-apply last known speed
+        restoreLastSpeed();
     });
 
     observer.observe(document.body, {
@@ -16,6 +44,7 @@ const observeVideos = () => {
 };
 
 observeVideos();
+restoreLastSpeed();
 
 const showToast = (message) => {
     const toast = document.createElement('div');
@@ -39,19 +68,57 @@ const showToast = (message) => {
     }, 1000);
 };
 
+let keymap = { ...DEFAULT_KEYS };
+
+function loadKeys() {
+    chrome.storage.sync.get({ keys: DEFAULT_KEYS }, (data) => {
+        const k = data.keys || DEFAULT_KEYS;
+        // 正規化（小文字）
+        keymap = {
+            increase: (k.increase || []).map(k => String(k).toLowerCase()),
+            decrease: (k.decrease || []).map(k => String(k).toLowerCase())
+        };
+    });
+}
+
+loadKeys();
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && changes.keys) {
+        loadKeys();
+    }
+});
+
 document.addEventListener('keydown', (event) => {
+    // 入力要素でのタイプ中は無視
+    const target = event.target;
+    const tag = target && target.tagName ? target.tagName.toLowerCase() : '';
+    const isEditable = (
+        tag === 'input' || tag === 'textarea' || tag === 'select' ||
+        (target && target.isContentEditable)
+    );
+    if (isEditable) return;
+
     const videos = document.querySelectorAll('video');
     if (!videos.length) return;
+    const key = String(event.key || '').toLowerCase();
+    const isInc = keymap.increase?.includes(key);
+    const isDec = keymap.decrease?.includes(key);
+    if (!isInc && !isDec) return;
 
+    let latestRate;
     videos.forEach(video => {
-        if (event.key === 'D' || event.key === 'd') {
+        if (isInc) {
             video.playbackRate = Math.min(video.playbackRate + 0.1, 16); // 最大速度16倍
-            showToast(`Speed: ${video.playbackRate.toFixed(1)}x`);
-            // console.log(`Video speed increased to: ${video.playbackRate.toFixed(1)}x`);
-        } else if (event.key === 'S' || event.key === 's') {
+        } else if (isDec) {
             video.playbackRate = Math.max(video.playbackRate - 0.1, 0.1); // 最小速度0.1倍
-            showToast(`Speed: ${video.playbackRate.toFixed(1)}x`);
-            // console.log(`Video speed decreased to: ${video.playbackRate.toFixed(1)}x`);
         }
+        latestRate = video.playbackRate;
+        showToast(`Speed: ${video.playbackRate.toFixed(1)}x`);
     });
+    if (typeof latestRate === 'number') {
+        const key = `lastSpeed:${getSiteKey()}`;
+        chrome.storage.local.set({ [key]: latestRate });
+    }
 });
+
+// Preset-based speed setting via popup has been removed.
